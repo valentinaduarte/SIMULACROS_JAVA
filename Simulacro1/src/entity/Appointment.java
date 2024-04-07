@@ -7,7 +7,7 @@ public class Appointment {
 
     private String time;
 
-    private String  motive;
+    private String motive;
 
     private int idPatient;
 
@@ -27,9 +27,9 @@ public class Appointment {
         this.objPatient = objPatient;
     }
 
-    public Appointment(){
+    public Appointment() {
 
-    };
+    }
 
     public int getId() {
         return id;

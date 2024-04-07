@@ -44,7 +44,7 @@ public class PatientController {
 
         Patient objPatient = (Patient) JOptionPane.showInputDialog(
                 null,
-                "Selecciona la especializacion a eliminar: ",
+                "Selecciona el paciente a eliminar: ",
                 "",
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -59,7 +59,7 @@ public class PatientController {
         Object[] options = Utils.listToArray(instanceModel().findAll());
         Patient patientSelected = (Patient) JOptionPane.showInputDialog(
                 null,
-                "Selecciona una especialidad.",
+                "Selecciona el paciente:",
                 "",
                 JOptionPane.QUESTION_MESSAGE,
                 null,

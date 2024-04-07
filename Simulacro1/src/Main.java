@@ -1,3 +1,4 @@
+import controller.AppointmentController;
 import controller.MedicController;
 import controller.PatientController;
 import controller.SpecialityController;
@@ -107,7 +108,36 @@ public class Main {
                         }
                     } while (option2 != 5);
                     break;
+
+                case 4:
+                    do {
+                        option2 = Integer.parseInt(JOptionPane.showInputDialog(
+                                """
+                                1. Listar Citas.
+                                2. Crear Citas.
+                                3. Eliminar Citas.
+                                4. Actualizar Citas.
+                                5. Salir.
+                                """));
+                        switch (option2){
+                            case 1:
+                                AppointmentController.getAll();
+                                break;
+                            case 2:
+                                AppointmentController.insert();
+                                break;
+                            case 3:
+                                AppointmentController.delete();
+                                break;
+                            case 4:
+                                AppointmentController.update();
+                                break;
+                        }
+                    }while (option2 != 5);
+
                     }
+
+
 
 
         } while (option != 5);
