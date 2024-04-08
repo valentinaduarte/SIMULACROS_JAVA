@@ -2,9 +2,7 @@ package model;
 
 import database.CRUD;
 import database.ConfigDB;
-import entity.Medic;
-import entity.Medic;
-import entity.Speciality;
+import entities.Airplane;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -14,30 +12,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicModel implements CRUD {
-    @Override
+public class AirplaneModel implements CRUD {
     public Object insert(Object obj) {
         Connection objConnection = ConfigDB.openConnection();
 
-        Medic objMedic = (Medic) obj;
+        Airplane objAirplane = (Airplane) obj;
 
         try {
-            String sql = "INSERT INTO medico (nombre, apellidos, id) VALUES (?, ?, ?);";
+            String sql = "INSERT INTO avion (modelo, capacidad) VALUES (?, ?);";
             PreparedStatement objPrepare =  objConnection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            objPrepare.setString(1, objMedic.getName());
-            objPrepare.setString(2, objMedic.getLastName());
-            objPrepare.setInt(3, objMedic.getId());
+            objPrepare.setString(1, objAirplane.getModel());
+            objPrepare.setInt(2, objAirplane.getCapacity());
 
             objPrepare.execute();
 
             ResultSet objResult = objPrepare.getGeneratedKeys();
 
             while(objResult.next()){
-                objMedic.setId(objResult.getInt(1));
+                objAirplane.setId(objResult.getInt(1));
             }
 
-            JOptionPane.showMessageDialog(null, "El medico fue agregado correctamente.");
+            JOptionPane.showMessageDialog(null, "El avion fue agregado correctamente.");
 
         } catch (SQLException e) {
             System.out.println("Error >" + e.getMessage());
@@ -45,64 +41,56 @@ public class MedicModel implements CRUD {
 
         ConfigDB.closeConnection();
 
-        return objMedic;
-
+        return objAirplane;
     }
 
-    @Override
+
+
     public List<Object> findAll() {
-        List<Object> listMedics = new ArrayList<>();
+        List<Object> listAirplanes = new ArrayList<>();
         Connection objConnection = ConfigDB.openConnection();
 
         try {
-            String sql = "SELECT * FROM medico \n" + "INNER JOIN especialidad ON especialidad.id = medico.id_especialidad;";
+            String sql = "SELECT * FROM avion;";
             PreparedStatement objPrepare = objConnection.prepareStatement(sql);
 
             ResultSet objResult = objPrepare.executeQuery();
 
             while (objResult.next()) {
-                Medic objMedic = new Medic();
-                Speciality objSpeciality = new Speciality();
+                Airplane objAirplane = new Airplane();
 
-                objMedic.setId(objResult.getInt("medico.id"));
-                objMedic.setName(objResult.getString("medico.nombre"));
-                objMedic.setLastName(objResult.getString("medico.apellidos"));
-                objMedic.setIdSpeciality(objResult.getInt("medico.id_especialidad"));
+                objAirplane.setId(objResult.getInt("id"));
+                objAirplane.setModel(objResult.getString("modelo"));
+                objAirplane.setCapacity(objResult.getInt("capacidad"));
 
-                objSpeciality.setId(objResult.getInt("especialidad.id"));
-                objSpeciality.setName(objResult.getString("especialidad.nombre"));
-                objSpeciality.setDescription(objResult.getString("especialidad.descripcion"));
-
-                objMedic.setObjSpeciality(objSpeciality);
-
-                listMedics.add(objMedic);
+                listAirplanes.add(objAirplane);
             }
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
         ConfigDB.closeConnection();
-        return listMedics;
+
+        return listAirplanes;
     }
 
     @Override
     public boolean update(Object obj) {
         Connection objConnection = ConfigDB.openConnection();
-        Medic objMedic = (Medic) obj;
+        Airplane objAirplane = (Airplane) obj;
         boolean isUpdated = false;
 
         try {
-            String sql = "UPDATE medico SET nombre = ?, apellidos = ?, id_especialidad = ?";
+            String sql = "UPDATE avion SET modelo = ?, capacidad = ? WHERE id = ?;";
             PreparedStatement objPrepare = objConnection.prepareStatement(sql);
 
-            objPrepare.setString(1,objMedic.getName());
-            objPrepare.setString(2,objMedic.getLastName());
-            objPrepare.setInt(3,objMedic.getIdSpeciality());
+            objPrepare.setString(1,objAirplane.getModel());
+            objPrepare.setInt(2,objAirplane.getCapacity());
 
             int totalRowAffected = objPrepare.executeUpdate();
             if (totalRowAffected > 0){
                 isUpdated = true;
-                JOptionPane.showMessageDialog(null,"Registro actualizado correctamente.");
+                JOptionPane.showMessageDialog(null,"El avion ha sido actualizado correctamente.");
             }
         }catch (SQLException e){
             System.out.println("Error : " + e.getMessage());
@@ -115,15 +103,15 @@ public class MedicModel implements CRUD {
     @Override
     public boolean delete(Object obj) {
         Connection objConnection = ConfigDB.openConnection();
-        Medic objMedic = (Medic) obj;
+        Airplane objAirplane = (Airplane) obj;
 
         boolean isDeleted = false;
 
         try {
-            String sql = "DELETE FROM medico WHERE id = ?;";
+            String sql = "DELETE FROM avion WHERE id = ?;";
             PreparedStatement objPrepare = objConnection.prepareStatement(sql);
 
-            objPrepare.setInt(1, objMedic.getId());
+            objPrepare.setInt(1, objAirplane.getId());
 
             int totalAffectedRows = objPrepare.executeUpdate();
 

@@ -134,12 +134,7 @@ public class Main {
                                 break;
                         }
                     }while (option2 != 5);
-
                     }
-
-
-
-
         } while (option != 5);
     }
 }
