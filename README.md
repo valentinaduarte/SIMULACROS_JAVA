@@ -1,5 +1,3 @@
-PASO A PASO SPRING BOOT PROYECTO CON SPRING BOOT
-
 # Pasos Para Realizar un proyecto Completo en SpringBoot
 
 ## * SpringBoot con las 5 dependencias
@@ -74,21 +72,25 @@ PASO A PASO SPRING BOOT PROYECTO CON SPRING BOOT
 
 
 
+# Pasos Para Realizar un proyecto Completo en SpringBoot
 
+## Inicializador de proyecto y se agregan dependencias básicas.
 
-1. Inicializador de proyecto y se agregan dependencias básicas.
-
-2. Conexión con base de datos, primero se tiene que activar MySQL en XAMPP, luego se crea la base de datos en la conexión local.
+##Conexión con base de datos, primero se tiene que activar MySQL en XAMPP, luego se crea la base de datos en la conexión local.
 
 Nota: Recordar cambiar el nombre de la base de datos por la que se creó localmente.
 
-3. Inyección de dependencias externas en el archivo “pom.xml”.
+## Inyección de dependencias externas en el archivo “pom.xml”.
 
 · Swagger
 
 · Mail
 
-4. Creación carpeteada en arquitectura hexagonal.
+## Creación carpeteada en arquitectura hexagonal.
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/a3fb51cd-9274-471e-a2cd-389a399ea6fd)
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/80157510-de14-46f2-83ea-e15a150e6f54)
+
+
 
 5. Creación de entidades con sus respectivas relaciones, las entidades tienen las siguientes anotaciones:
 
@@ -116,6 +118,9 @@ Nota: Recordar cambiar el nombre de la base de datos por la que se creó localme
 
 · Nota 7: Existe un caso especial en la entidad “Submission” en el atributo “content”, a este se le agrega la etiqueta “@Lob” para permitirle una extensión más grande de texto que un string, este caso aplica para los atributos definidos en el modelo de entidad relación como “text”. Esto aplica para todos los atributos de las entidades que son de tipo “text”, también se puede poner “@Column(columnDefinition = "TEXT")”
 
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/d2b0a9aa-c5d6-495b-b4a8-1a1a4b0c877b)
+
+
 6. Crear los DTO de request y de response, los DTO tienen las siguientes anotaciones:
 
 “@Data”
@@ -138,9 +143,15 @@ Nota: Recordar cambiar el nombre de la base de datos por la que se creó localme
 
 7. Creación de repositorios, se agrega la anotación “@Respository” es de tipo interface y extiendo de “JpaRepository<Entidad, Tipo de la PK>”.
 
-8. Se crea el “CrudService” de base, este es una interface que recibe un RQ, RS e ID, está ubicado en la carpeta “abstract_services”.
+   ![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/aa8f69bd-5b28-496c-830f-64a2215878fb)
+
+8.	Se crea el “CrudService” de base, este es una interface que recibe un RQ, RS e ID, está ubicado en la carpeta “abstract_services”.
+
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/6a1c8c8d-c0f4-4d09-b5e3-27bb2297d40b)
 
 9. En las interfaces de servicio son de tipo interface y están ubicadas la carpeta “abstract_services”.
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/7803fdf7-0de9-49ab-8566-38fdde8d5d71)
+
 
 · Nota 1: Hay que recordar que tengo que enviarle los DTO completos y el tipo de la PK, en este caso los DTO están en términos de REQUEST “#nombreEntidadReq.java”, RESPONSE “#nombreEntidadResp.java”.
 
@@ -160,6 +171,9 @@ Nota: Recordar cambiar el nombre de la base de datos por la que se creó localme
 
 Además, se le tiene que definir las dos variables de respuesta que son el “status” y el código del status “code”.
 
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/c813face-67e3-41ba-a3e1-fbba7ae3bf6b)
+
+
 11. Dentro de la misma carpeta se crea otra clase de nombre “ErrorResp” que extiende de la clase anterior “BaseErrorResp”, tiene las mismas anotaciones de la anterior agregando “@EqualsAndHashCode(callSuper = true)” la cual me indica que este hijo me ocupe el mismo espacio que el papá, y dentro de la clase se tendrá una lista de strings que especifican los errores generados.
 
 12. Creo el advice controller, es un observador que revisa toda la aplicación que dependiendo del tipo de error el ejecuta algún método, esto es una clase y se ubica en la carpeta “error_handler” este tiene las siguientes anotaciones:
@@ -171,6 +185,8 @@ Además, se le tiene que definir las dos variables de respuesta que son el “st
 · Nota 1: Le ponemos un status por defecto, este status es el 400 y surge cuando no se le envían los parámetros como el los pide
 
 Se crea un método dentro que tiene la anotación “@ExceptionHandler (MethodArgumentNotValidException.class)” que le indica cuando es que se tiene que activar, por dentro tiene una excepción que activa la librería de validación, esta excepción se tiene que pasar también como parámetro del método, además este método da una respuesta de tipo “BaseErrorResp”. Luego dentro el método se crea una “lista” de map para almacenar los errores, se obtiene de la excepción los resultados con el field y el error mediante el método “.getBindingResult()” y se obtiene la lista de los nombres del campo del error (donde ocurrieron) con el método “.getFieldErrors()”, le creo un iterador “.forEach()” en el cuál crearé un “HashMap<>()” (estructura de tipo llave-valor), donde agregaré el error y donde ocurrió el error, además luego de eso agrego el “HashMap” creado a la lista de errores creada inicialmente.
+![image](https://github.com/valentinaduarte/SIMULACROS_JAVA/assets/79950158/b0200cba-78f0-471c-8878-c5caaaa92138)
+
 
 13. Se crea un archivo con nombre “BadRequestException” de tipo “class” en la carpeta “exceptions”, y extiende de “RunTimeException”.
 
